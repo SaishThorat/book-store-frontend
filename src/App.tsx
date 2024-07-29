@@ -1,7 +1,12 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {  useState } from 'react'
 import './App.css'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from './pages/home/Home';
+import Register from './pages/auth/Register';
+import Login from './pages/auth/Login';
+import CartPage from './pages/CartPage';
+import PageNotFound from './pages/error/PageNotFound';
+import ProfilePage from './pages/profile/ProfilePage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -10,38 +15,40 @@ function App() {
     rollno:''
   })
 
-  useEffect(()=>{
-fetch('/api').then((res)=>{
-  return res.json()
-}).then((data)=>{
-  setUser({name:data.name,rollno:data.rollno})
-})
-  },[])
+//   useEffect(()=>{
+// fetch('/api').then((res)=>{
+//   return res.json()
+// }).then((data)=>{
+//   setUser({name:data.name,rollno:data.rollno})
+// })
+//   },[])
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>{user.name}</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+ return(<>
 
-export default App
+<Router>
+        <Routes>
+        <Route path="/"  element={<Home/>}/>
+          <Route path="/login"  element={<Login/>}/>
+
+          <Route path="/homepage" element={<Home/>} />
+          <Route  path="/signup"  element={<Register/>} />
+          <Route path="/cart"  element={<CartPage/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
+          <Route path="/product"  />
+          <Route path="/addEmployee"  />
+          <Route path="/addproduct"  />
+          <Route path="/userOrder"/>
+          <Route path="/women"  />
+          <Route path="/electronics" />
+          <Route path="/accessories"/>
+          <Route path="/about"  />
+          <Route path="/contact"  />
+          <Route path="/policy"  />
+          <Route path="/*" element={<PageNotFound/>}/>
+        </Routes>
+      </Router>
+ 
+
+ </>)}
+
+ export default App;

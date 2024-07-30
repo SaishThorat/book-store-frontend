@@ -3,37 +3,87 @@ import LoginPic from "../../assets/images/signup-image.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
+import httpClients from "../../httpClient";
+
+
 const Login = () => {
-  const [email, Setemail] = useState("");
-  const [password, Setpassword] = useState("");
+
   const navigate = useNavigate();
 
-  const signIn = (e:any) => {
-    e.preventDefault();
-    let isvalid = false;
-    if (email === "" || password === "") {
-      toast.error("Please fill all fields!");
-    } else {
-      if (email === "admin@admin.com" && password === "admin") {
-        isvalid = true;
-        let data = JSON.stringify({ email, password });
-      } else {
-        isvalid = false;
-        toast.error(" Invalid credential !!");
-      }
-    }
-    if (isvalid) {
-      // alert("login succefully !!");
-      toast.success(" login successfully !!");
-      navigate("/homepage");
-    } else {
-      navigate("/");
-    }
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e:any) => {
+    const { name, value } = e.target;
+    setLoginDetails({
+      ...loginDetails,
+      [name]: value,
+    });
   };
+
+  const signIn = async () => {
+    // axios call
+
+    await httpClients
+      .post("/api/auth/login", {
+        email: loginDetails.email,
+        password: loginDetails.password,
+      })
+      .then((res) => {
+        if (res?.status === 201) {
+          toast.success("login successfully ");
+          navigate("/homePage");
+        }
+      })
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          toast.error("Invalid credential.");
+          navigate("/login");
+        }
+      });
+  };
+
+
+
+
+
+  // const [email, Setemail] = useState("");
+  // const [password, Setpassword] = useState("");
+  // const navigate = useNavigate();
+
+  // const signIn =async () => {
+
+  //   try {
+  //       if (email === "" || password === "") {
+  //           toast.error("Please fill all fields!");
+  //         } else {
+  //           const res= await fetch('/api/auth/login',
+  //             {
+  //                 method:"POST",
+  //                 headers:{"Content-Type": "application/json"},
+  //                 body:JSON.stringify({email,password}),
+  //             });
+
+  //           const token=await res.json();
+  //          const user= jwtDecode(token);
+  //          console.log(user)
+
+  //           if(res.status===201){
+  //               toast.success(" login successfully !!");
+  //           navigate("/homepage"); 
+  //           }
+  //         }
+  //   } catch (error) {
+  //           toast.error(" Please login with correct credentials !!");
+  //           navigate("/login");
+  //   }
+
   return (
     <div>
       <div className="main">
-        {/* Sing in  Form */}
         <section className="sign-in pt-5">
           <div className="container_page">
             <div className="signin-content">
@@ -47,17 +97,14 @@ const Login = () => {
               </div>
               <div className="signin-form">
                 <h2 className="form-title">Login</h2>
-                <form method="POST" className="register-form" id="login-form">
                   <div className="form-group">
                     <label htmlFor="your_name">
                       <i className="zmdi zmdi-account material-icons-name" />
                     </label>
                     <input
                       type="text"
-                      value={email}
-                      onChange={(e) => {
-                        Setemail(e.target.value);
-                      }}
+                      value={loginDetails.email}
+                      onChange={handleInputChange}
                       required
                       name="email"
                       id="email"
@@ -70,13 +117,11 @@ const Login = () => {
                     </label>
                     <input
                       type="password"
-                      name="your_pass"
-                      value={password}
-                      onChange={(e) => {
-                        Setpassword(e.target.value);
-                      }}
+                      name="password"
+                      value={loginDetails.password}
+                      onChange={handleInputChange}
                       required
-                      id="your_pass"
+                      id="password"
                       placeholder="Password"
                     />
                   </div>
@@ -91,7 +136,6 @@ const Login = () => {
                       defaultValue="Log in"
                     />
                   </div>
-                </form>
               </div>
             </div>
           </div>

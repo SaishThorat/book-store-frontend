@@ -3,35 +3,63 @@ import { useNavigate } from "react-router-dom";
 import SigninPic from "../../assets/images/signin-image.jpg";
 import toast from "react-hot-toast";
 import "../../assets/css/login1.css"
+import { Role } from "../../contants";
+import axios from "axios";
+import httpClients from "../../httpClient";
 
 const Register = () => {
-  const [username, setusername] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [retypepass, setretypepass] = useState("");
-  const [role, setRole] = useState("");
-  const [gender, setGender] = useState("Gender");
+  
+
+  const [userDetails,SetUserDetails]=useState({
+    name: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+  })
+
+
+  const handleChangeInput=(e:any)=>{
+    const { name, value } = e.target;
+    SetUserDetails({
+      ...userDetails,
+      [name]: value,
+    });
+  }
+
+  const [userRole, setUserRole] = useState("Role");
   const navigate = useNavigate();
-  const signupMe = () => {
+  const signupMe = async () => {
     let isvalid = false;
     if (
-      (username === "") || (email === "") ||
-      (password === "") || (retypepass === "")
+      (userDetails.name === "") || (userDetails.email === "") ||
+      (userDetails.password === "") || (userDetails.phoneNumber === "")
     ) {
       toast.error("Please fill all fields!");
     } else {
-      if (password !== retypepass) {
-    
-        toast.error("Password does not match Retype Password!");
-        isvalid = false;
-      } else {
-        let data = JSON.stringify({ username, email, password });
-        isvalid = true;
-      }
+        let data = {  name: userDetails.name,
+          email: userDetails.email,
+          password: userDetails.password,
+          phoneNumber: userDetails.phoneNumber,
+          roleId: Role.indexOf(userRole)+1 };
+
+
+          await httpClients
+          .post("/api/auth/signup",data)
+          .then((res) => {
+            if (res?.status === 201) {
+              isvalid = true;
+            }
+          })
+          .catch((err) => {
+            if (err.response?.status === 401) {
+              toast.error("Enter correct details");
+              navigate("/signup");
+            }
+          });
     }
     if (isvalid) {
       toast.success("signup succefully login please !!");
-      navigate("/");
+      navigate("/login");
     }
   };
   const [isGenderSelected, setisGenderSelected] = useState(false);
@@ -44,40 +72,15 @@ const Register = () => {
               <div className="signup-form">
                 <h2 className="form-title">Register Here </h2>
 
-                <form
-                  method="POST"
-                  className="register-form"
-                  id="register-form"
-                >
-                  <div className="dropdown mb-3">
-                    <div
-                      className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setRole("employee")}
-                      >
-                        Employee
-                      </button>
-                      <button
-                        className="dropdown-item"
-                        onClick={() => setRole("customer")}
-                      >
-                        Customer
-                      </button>
-                    </div>
-                  </div>
+               
                   <div className="form-group">
                     <label htmlFor="name">
                       <i className="zmdi zmdi-account material-icons-name" />
                     </label>
                     <input
                       type="text"
-                      value={username}
-                      onChange={(e) => {
-                        setusername(e.target.value);
-                      }}
+                      value={userDetails.name}
+                      onChange={handleChangeInput}
                       name="name"
                       id="name"
                       placeholder="Your Name"
@@ -90,10 +93,8 @@ const Register = () => {
                     </label>
                     <input
                       type="email"
-                      value={email}
-                      onChange={(e) => {
-                        setemail(e.target.value);
-                      }}
+                      value={userDetails.email}
+                      onChange={handleChangeInput}
                       name="email"
                       id="email"
                       placeholder="Your Email"
@@ -107,11 +108,9 @@ const Register = () => {
                     </label>
                     <input
                       type="password"
-                      value={password}
-                      onChange={(e) => {
-                        setpassword(e.target.value);
-                      }}
-                      name="pass"
+                      value={userDetails.password}
+                      onChange={handleChangeInput}
+                      name="password"
                       id="pass"
                       placeholder="Password"
                       required
@@ -122,14 +121,12 @@ const Register = () => {
                       <i className="zmdi zmdi-lock-outline" />
                     </label>
                     <input
-                      type="password"
-                      value={retypepass}
-                      onChange={(e) => {
-                        setretypepass(e.target.value);
-                      }}
-                      name="re_pass"
-                      id="re_pass"
-                      placeholder="Repeat your password"
+                      type="text"
+                      value={userDetails.phoneNumber}
+                      onChange={handleChangeInput}
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      placeholder="Phone Number"
                       required
                     />
                   </div>
@@ -142,7 +139,7 @@ const Register = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      {gender}
+                      {userRole}
                     </button>
                     <ul className="dropdown-menu" >
                       <div>
@@ -150,35 +147,25 @@ const Register = () => {
                           <button
                             className="dropdown-item"
                             onClick={() => {
-                              setGender("MALE");
+                              setUserRole("USER");
                               setisGenderSelected(true);
                             }}
                           >
-                            MALE
+                            USER
                           </button>
                         </li>
                         <li>
                           <button
                             className="dropdown-item"
                             onClick={() => {
-                              setGender("FEMALE");
+                              setUserRole("PUBLISHER");
                               setisGenderSelected(true);
                             }}
                           >
-                            FEMALE
+                            PUBLISHER
                           </button>
                         </li>
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => {
-                              setGender("OTHER");
-                              setisGenderSelected(true);
-                            }}
-                          >
-                            OTHER
-                          </button>
-                        </li>
+                       
                       </div>
                     </ul>
                   </div>
@@ -193,13 +180,12 @@ const Register = () => {
                       defaultValue="Register"
                     />
                   </div>
-                </form>
               </div>
               <div className="signup-image">
                 <figure>
                   <img src={SigninPic} alt="sing up image" />
                 </figure>
-                <a href="/" className="signup-image-link">
+                <a href="/login" className="signup-image-link">
                   I am already member
                 </a>
               </div>

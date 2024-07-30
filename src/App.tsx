@@ -7,6 +7,7 @@ import Login from './pages/auth/Login';
 import CartPage from './pages/CartPage';
 import PageNotFound from './pages/error/PageNotFound';
 import ProfilePage from './pages/profile/ProfilePage';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,7 +30,6 @@ function App() {
         <Routes>
         <Route path="/"  element={<Home/>}/>
           <Route path="/login"  element={<Login/>}/>
-
           <Route path="/homepage" element={<Home/>} />
           <Route  path="/signup"  element={<Register/>} />
           <Route path="/cart"  element={<CartPage/>}/>
@@ -47,6 +47,7 @@ function App() {
           <Route path="/*" element={<PageNotFound/>}/>
         </Routes>
       </Router>
+      <Toaster />
  
 
  </>)}

@@ -1,0 +1,26 @@
+/* Add these styles to your global CSS file */
+.carousel img {
+  width: 100%;
+  cursor: pointer;
+}
+
+.book-details {
+  display: flex;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #e0f7fa;
+}
+
+.book-details img {
+  width: 200px;
+  margin-right: 20px;
+}
+
+.book-details button {
+  margin-right: 10px;
+}
+
+.recommendations {
+  padding: 20px;
+  background-color: #b2ebf2;
+}

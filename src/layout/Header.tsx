@@ -1,24 +1,26 @@
-import { NavLink, Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 import { IoMdCart } from "react-icons/io";
-
 import toast from "react-hot-toast";
-
-// import { useCartCount } from "../ContextApi/Cart";
 import { Badge } from "antd";
-import "../assets/css/HeaderStyle.css"
-const Header = () => {  
-//   const [cartCount, setCartCount] = useCartCount();
+import "../assets/css/HeaderStyle.css";
 
+const Header = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
-  const userType :string= "user";
+  const userType = "user"; // You can change this value to "admin" for testing admin view
 
   const handleLogout = () => {
-    // Logic
     navigate("/login");
     toast.success("Logout Successfully");
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
   };
 
   return (
@@ -38,16 +40,14 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <Link to="/homepage" className="navbar-brand">
-              <IoSchool /> Book Store
+              <IoSchool /> BookBazaar
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mx-5">
-              {/* <SearchInput /> */}
               <li className="nav-item mx-1">
                 <NavLink to="/homepage" className="nav-link btn-2">
                   Home
                 </NavLink>
               </li>
-
               <li className="nav-item dropdown mx-1">
                 <Link
                   className="nav-link dropdown-toggle"
@@ -59,24 +59,34 @@ const Header = () => {
                 <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" to="/homepage">
-                      {" "}
-                      All Book
+                      All Books
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/men">
-                      {" "}
-                      E-Learing Book
+                    <Link className="dropdown-item" to="/elearning">
+                      E-Learning Books
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/accessories">
-                      Physical Book
+                    <Link className="dropdown-item" to="/physical">
+                      Physical Books
                     </Link>
                   </li>
                 </ul>
               </li>
-
+              <form className="d-flex" onSubmit={handleSearch}>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
               <li className="nav-item dropdown mx-1">
                 <NavLink
                   className="nav-link dropdown-toggle"
@@ -120,7 +130,7 @@ const Header = () => {
                         userType === "admin" ? "d-block" : "d-none"
                       }`}
                     >
-                      Order history
+                      Order History
                     </NavLink>
                   </li>
                   <li>
@@ -134,7 +144,6 @@ const Header = () => {
                   </li>
                 </ul>
               </li>
-
               <li className="nav-item p-1 mx-1">
                 <Badge>
                   <NavLink to="/cart" className="nav-link">

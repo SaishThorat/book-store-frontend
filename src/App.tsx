@@ -8,6 +8,7 @@ import CartPage from "./pages/CartPage";
 import PageNotFound from "./pages/error/PageNotFound";
 import ProfilePage from "./pages/profile/ProfilePage";
 import { Toaster } from "react-hot-toast";
+import Recommendations from "./pages/bookview/Recommendations";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -34,6 +35,7 @@ function App() {
           <Route path="/signup" element={<Register />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/bookview" element={<Recommendations />} />
           <Route path="/product" />
           <Route path="/addEmployee" />
           <Route path="/addproduct" />

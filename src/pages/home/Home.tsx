@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 import { Modal } from "antd";
 import Layout from "../../layout/Layout";
 import HeroSection from "./HeroSection";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   //   const [CartCount, setCartCount] = useCartCount();
-
+  const navigate = useNavigate();
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -142,10 +143,14 @@ const HomePage = () => {
   //   useEffect(() => {
   //     // getProduct();
   //   }, [CartCount]);
+  const handleNavigate = () => {
+    console.log("Trying to navigate");
+    navigate("/bookview");
+  };
 
   return (
     <Layout>
-      <HeroSection />
+      <HeroSection handleScrolling={null} />
       <div className="col-md-12 order-md-2 order-1 pt-2">
         <div className="d-flex flex-wrap justify-content-center">
           {products?.map((p) => {
@@ -237,6 +242,9 @@ const HomePage = () => {
                               </b>
                               <p>Category : {ProductDetail?.category}</p>
                               <h6>{ProductDetail.description}</h6>
+                              <button onClick={handleNavigate}>
+                                View the Book
+                              </button>
                               <button
                                 className="btn btn-light ms-1 btn-outline-dark m-1"
                                 // onClick={addToCard}

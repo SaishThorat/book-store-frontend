@@ -34,7 +34,7 @@ const Footer = () => {
               <Link to="/policy">Privacy Policy</Link>
             </li>
           </ul>
-          <p className="copyright">All right Reserved &copy; Team 7</p>
+          <p className="copyright">All right Reserved &copy; Agile Avengers</p>
         </footer>
       </div>
     </>

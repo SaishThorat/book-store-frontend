@@ -2,13 +2,15 @@ import React from "react";
 import "../../assets/css/HeroSection.css"; // Assuming you will create a separate CSS file for styles
 // import image from "./path/to/your/image.png"; // Adjust the path to your image
 
-const HeroSection = () => {
+const HeroSection = ({ handleScrolling }) => {
   return (
     <div className="hero-container">
       <div className="text-content">
         <h1>Wanna Read?</h1>
         <p>Welcome to the world of books</p>
-        <button className="explore-button">Explore more</button>
+        <button className="explore-button" onClick={handleScrolling}>
+          Explore more
+        </button>
       </div>
       <div className="image-content">
         <img

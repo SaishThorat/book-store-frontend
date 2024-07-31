@@ -3,6 +3,7 @@ import "../../assets/css/profilePage.css";
 import { useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 // import axios from "axios";
+
 const ProfilePage = () => {
   const [EmpId, setEmpId] = useState();
   const [userDetails, setUserDetails] = useState({
@@ -11,6 +12,7 @@ const ProfilePage = () => {
     contactNo: "8459662740",
     address: "Shirdi",
   });
+
   const userId = 2;
   // const getSingleUser = async () => {
   //   const data = await axios.get(`http://localhost:8080/employee/${userId}`, {
@@ -435,4 +437,5 @@ const ProfilePage = () => {
     </>
   );
 };
+
 export default ProfilePage;

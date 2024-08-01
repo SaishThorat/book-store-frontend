@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-// import { useCartCount } from "../ContextApi/Cart";
 import { Modal } from "antd";
 import Layout from "../../layout/Layout";
 import HeroSection from "./HeroSection";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+import "../../assets/css/Home.css";
 
 const HomePage = () => {
-  //   const [CartCount, setCartCount] = useCartCount();
   const navigate = useNavigate();
   const [products, setProducts] = useState([
     {
@@ -63,12 +62,14 @@ const HomePage = () => {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
+
   const showModal = (productId: number) => {
     console.log({ productId });
     setSelectedProduct(productId);
     setOpen(true);
     // getProduct(productId);
   };
+
   const handleOk = () => {
     setModalText("The modal will be closed after two seconds");
     setConfirmLoading(true);
@@ -78,10 +79,12 @@ const HomePage = () => {
       setConfirmLoading(false);
     }, 1000);
   };
+
   const handleCancel = () => {
     console.log("Clicked cancel button");
     setOpen(false);
   };
+
   //get products
   const getAllProducts = async () => {
     try {
@@ -102,18 +105,6 @@ const HomePage = () => {
     getAllProducts();
   }, []);
 
-  //get product
-  //   const getProduct = async (productId) => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `http://localhost:8080/product/${productId}`
-  //       );
-
-  //       setProductDetail(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
   const orders = {
     userId: 1,
     productId: 5,
@@ -121,42 +112,21 @@ const HomePage = () => {
     timeAndDate: "",
   };
 
-  //   const addToCard = async () => {
-  //     const { data } = await axios
-  //       .post(`http://localhost:8080/order/add`, {
-  //         ...orders,
-  //         productId: ProductDetail.id,
-  //       })
-  //       .then((res) => {
-  //         if (res.status === 200) {
-  //         //   setCartCount(CartCount + 1);
-  //         //   localStorage.setItem("cartCount", CartCount);
-  //           toast.success("Item Added to Cart");
-  //         } else {
-  //           toast.error("Failed to Add ");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   useEffect(() => {
-  //     // getProduct();
-  //   }, [CartCount]);
   const handleNavigate = () => {
     console.log("Trying to navigate");
     navigate("/bookview");
   };
 
   return (
-    <Layout>
-      <HeroSection handleScrolling={null} />
-      <div className="col-md-12 order-md-2 order-1 pt-2">
-        <div className="d-flex flex-wrap justify-content-center">
-          {products?.map((p) => {
-            return (
-              <>
+    <div className="homepage-container">
+      <Layout>
+        <HeroSection handleScrolling={null} />
+        <div className="col-md-12 order-md-2 order-1 pt-2">
+          <div className="d-flex flex-wrap justify-content-center">
+            {products?.map((p) => {
+              return (
                 <div
+                  key={p.id}
                   className="card m-4 p-3"
                   style={{ width: "16rem", height: "24rem" }}
                 >
@@ -195,7 +165,6 @@ const HomePage = () => {
                         </p>
                       </b>
                     </div>
-
                     <Modal
                       title="Product Detail"
                       open={open}
@@ -247,7 +216,6 @@ const HomePage = () => {
                               </button>
                               <button
                                 className="btn btn-light ms-1 btn-outline-dark m-1"
-                                // onClick={addToCard}
                                 style={{ width: "100%" }}
                               >
                                 Add to Cart
@@ -259,12 +227,12 @@ const HomePage = () => {
                     </Modal>
                   </div>
                 </div>
-              </>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </div>
   );
 };
 

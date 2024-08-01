@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: linear-gradient(to right, #e0f7fa, #80deea);
+  background: linear-gradient(to right, #e0f7fa, #15b5daa0);
   border-radius: 10px;
   margin-bottom: 20px; /* Add margin to separate from the scroll section */
 }
@@ -14,16 +14,20 @@
 }
 
 .text-content h1 {
-  font-family: "Cursive", sans-serif;
-  color: #4a148c;
-  font-size: 3em;
+  font-family: "Beau Rivage", cursive;
+  /* color: #4a148c; */
+  color: #4d3ac2;
+  font-size: 5.5em;
   margin-bottom: 10px;
+
+  /* text-shadow: 2px 2px 2px #000000; */
 }
 
 .text-content p {
-  font-family: "Cursive", sans-serif;
-  color: #6a1b9a;
-  font-size: 1.5em;
+  font-family: "Beau Rivage", sans-serif;
+  /* color: #6a1b9a; */
+  color: #4d3ac2;
+  font-size: 2.5em;
   margin-bottom: 20px;
 }
 
@@ -49,7 +53,7 @@
 
 .hero-image {
   width: 100%;
-  max-width: 800px; /* Adjust the maximum width as needed */
+  max-width: 900px; /* Adjust the maximum width as needed */
   height: auto;
   border-radius: 10px;
 }

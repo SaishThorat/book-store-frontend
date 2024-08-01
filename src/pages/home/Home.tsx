@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Modal } from "antd";
@@ -9,6 +9,7 @@ import "../../assets/css/Home.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const productsRef = useRef<HTMLDivElement>(null); // Add ref here
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -52,11 +53,11 @@ const HomePage = () => {
   const [selectedProduct, setSelectedProduct] = useState<number>();
   const [ProductDetail, setProductDetail] = useState({
     id: 1,
-    name: "XXX",
+    name: "Book Name",
     discount: 1,
-    price: "XXX",
-    description: "",
-    category: "",
+    price: "$",
+    description: "Desc",
+    category: "Category",
   });
 
   const [open, setOpen] = useState(false);
@@ -117,11 +118,18 @@ const HomePage = () => {
     navigate("/bookview");
   };
 
+  // Function to handle scrolling
+  const handleScroll = () => {
+    if (productsRef.current) {
+      productsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="homepage-container">
       <Layout>
-        <HeroSection handleScrolling={null} />
-        <div className="col-md-12 order-md-2 order-1 pt-2">
+        <HeroSection handleScrolling={handleScroll} />
+        <div className="col-md-12 order-md-2 order-1 pt-2" ref={productsRef}>
           <div className="d-flex flex-wrap justify-content-center">
             {products?.map((p) => {
               return (
@@ -211,7 +219,10 @@ const HomePage = () => {
                               </b>
                               <p>Category : {ProductDetail?.category}</p>
                               <h6>{ProductDetail.description}</h6>
-                              <button onClick={handleNavigate}>
+                              <button
+                                onClick={handleNavigate}
+                                className="btn btn-light ms-1 btn-shadow m-1"
+                              >
                                 View the Book
                               </button>
                               <button

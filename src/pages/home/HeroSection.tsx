@@ -2,7 +2,7 @@ import React from "react";
 import "../../assets/css/HeroSection.css"; // Assuming you will create a separate CSS file for styles
 // import image from "./path/to/your/image.png"; // Adjust the path to your image
 
-const HeroSection = ({ handleScrolling }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ handleScrolling }) => {
   return (
     <div className="hero-container">
       <div className="text-content">

@@ -3,6 +3,7 @@ import BookCarousel from "./BookCarousel";
 import BookDetails from "./BookDetails";
 import Review from "./Review";
 import Layout from "../../layout/Layout";
+import "../../assets/css/Recommender.css";
 
 const Recommendations = () => {
   const [selectedBook, setSelectedBook] = useState(null);
@@ -43,13 +44,15 @@ const Recommendations = () => {
   ];
 
   return (
-    <Layout>
-      <div style={{ padding: "20px", backgroundColor: "#b2ebf2" }}>
-        <BookCarousel books={books} onSelectBook={setSelectedBook} />
-        <BookDetails book={selectedBook} />
-        <Review productId={1} />
-      </div>
-    </Layout>
+    <div className="book-view">
+      <Layout>
+        <div style={{ padding: "20px" }}>
+          <BookCarousel books={books} onSelectBook={setSelectedBook} />
+          <BookDetails book={selectedBook} />
+          <Review productId={1} />
+        </div>
+      </Layout>
+    </div>
   );
 };
 

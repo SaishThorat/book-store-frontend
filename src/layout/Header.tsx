@@ -9,7 +9,7 @@ import "../assets/css/HeaderStyle.css";
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const userType = "user"; // You can change this value to "admin" for testing admin view
+  const userType = "user"; // Change this value to "admin" for testing admin view
 
   const handleLogout = () => {
     navigate("/login");
@@ -51,16 +51,33 @@ const Header = () => {
               <li className="nav-item dropdown mx-1">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to=""
+                  to="#"
                   data-bs-toggle="dropdown"
                 >
                   Categories
                 </Link>
                 <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item" to="/homepage">
+                  <li className="dropdown-submenu">
+                    <Link className="dropdown-item dropdown-toggle" to="#">
                       All Books
                     </Link>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/sci-fi">
+                          Sci-Fi
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/horror">
+                          Horror
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/comedy">
+                          Comedy
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/elearning">

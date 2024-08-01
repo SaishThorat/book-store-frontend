@@ -36,10 +36,10 @@
 }
 
 .navbar-brand {
-  font-family: "Poppins", sans-serif;
+  font-family: "Fondamento", cursive;
   font-size: 24px;
   font-weight: bold;
-  color: #4a148c;
+  color: #5b0448;
 }
 
 .nav-link {
@@ -81,4 +81,21 @@
   background-color: #4a148c;
   color: #fff;
   border-color: #4a148c;
+}
+
+.navbar-nav .dropdown-menu .dropdown-submenu {
+  position: relative;
+}
+
+.navbar-nav .dropdown-menu .dropdown-submenu:hover .dropdown-menu {
+  display: contents;
+  margin-left: 100%;
+  top: 0;
+}
+
+.navbar-nav .dropdown-menu .dropdown-menu {
+  display: none;
+  position: sticky;
+  left: 100%;
+  top: 0;
 }

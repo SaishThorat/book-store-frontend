@@ -77,7 +77,12 @@ const Reviews = ({ productId }) => {
           placeholder="Your Review"
           required
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="btn btn-light ms-1 btn-outline-dark m-1"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

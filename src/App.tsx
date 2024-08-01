@@ -9,6 +9,8 @@ import PageNotFound from "./pages/error/PageNotFound";
 import ProfilePage from "./pages/profile/ProfilePage";
 import { Toaster } from "react-hot-toast";
 import Recommendations from "./pages/bookview/Recommendations";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -43,8 +45,8 @@ function App() {
           <Route path="/women" />
           <Route path="/electronics" />
           <Route path="/accessories" />
-          <Route path="/about" />
-          <Route path="/contact" />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/policy" />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

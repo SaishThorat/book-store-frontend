@@ -9,7 +9,7 @@ const BookDetails = ({ book }) => {
         display: "flex",
         marginTop: "20px",
         padding: "20px",
-        backgroundColor: "#e0f7fa",
+        backgroundColor: "#cff5fea0",
       }}
     >
       <img
@@ -25,8 +25,15 @@ const BookDetails = ({ book }) => {
         <p>
           <b>Description:</b> {book.description}
         </p>
-        <button style={{ marginRight: "10px" }}>Buy</button>
-        <button>Add to Cart</button>
+        <button
+          style={{ marginRight: "10px" }}
+          className="btn btn-light ms-1 btn-outline-dark m-1"
+        >
+          Buy
+        </button>
+        <button className="btn btn-light ms-1 btn-outline-dark m-1">
+          Add to Cart
+        </button>
       </div>
     </div>
   );

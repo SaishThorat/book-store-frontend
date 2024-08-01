@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap");
+
+.navbar {
+  font-family: "Poppins", sans-serif;
+  padding: 10px;
+  font-size: 17px;
+  line-height: 26px;
+  text-transform: uppercase;
+  /* box-shadow: 0 8px 6px -6px gray; */
+  /* --webkit-box-shadow:0 8px 6px -6px gray; */
+  /* border-bottom: solid grey !important; */
+  border-bottom: solid black 1px;
+}
+
+.nav-link {
+  font-weight: 300 !important;
+}
+
+/* .active{
+    border-bottom: 1.5px solid black;
+} */
+
+.navbar-brand {
+  font-weight: 700;
+  font-family: "roboto", "sans-serif";
+  letter-spacing: 2px;
+}
+
+.navbar li a:hover {
+  color: black;
+}
+
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-family: "Fondamento", cursive;
+  font-size: 24px;
+  font-weight: bold;
+  color: #5b0448;
+}
+
+.nav-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+
+.nav-link:hover {
+  color: #4a148c;
+}
+
+.explore-button {
+  background-color: #7986cb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #5c6bc0;
+}
+
+.form-control {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.btn-outline-success {
+  color: #4a148c;
+  border-color: #4a148c;
+}
+
+.btn-outline-success:hover {
+  background-color: #4a148c;
+  color: #fff;
+  border-color: #4a148c;
+}
+
+.navbar-nav .dropdown-menu .dropdown-submenu {
+  position: relative;
+}
+
+.navbar-nav .dropdown-menu .dropdown-submenu:hover .dropdown-menu {
+  display: contents;
+  margin-left: 100%;
+  top: 0;
+}
+
+.navbar-nav .dropdown-menu .dropdown-menu {
+  display: none;
+  position: sticky;
+  left: 100%;
+  top: 0;
+}

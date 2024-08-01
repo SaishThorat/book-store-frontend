@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import "../../assets/css/profilePage.css";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import Layout from "../../layout/Layout";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 // import axios from "axios";
 
 const ProfilePage = () => {
@@ -9,27 +12,39 @@ const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState({
     name: "Saish",
     email: "Saish@gmail.com",
-    contactNo: "8459662740",
+    phoneNumber: "8459662740",
     address: "Shirdi",
   });
 
-  const userId = 2;
-  // const getSingleUser = async () => {
-  //   const data = await axios.get(`http://localhost:8080/employee/${userId}`, {
-  //     withCredentials: false,
-  //   });
-  //   setEmpId(data.data.empId);
-  //   delete data.data.empId;
-  //   delete data.data.dateOfJoining;
-  //   delete data.data.designation;
-  //   delete data.data.password;
-  //   delete data.data.salary;
+  const [cookies, setCookie,] = useCookies(["user"]);
 
-  //   setUserDetails(data.data);
-  // };
-  // useEffect(() => {
-  //   getSingleUser();
-  // }, []);
+ 
+
+  const getSingleUser = async () => {
+
+    const { data } = await axios.get(
+      `/api/auth/me`,
+      {
+        withCredentials:true,
+        withXSRFToken:true,
+        headers: { 'Authorization': `Bearer ${cookies.user}` } 
+      }
+    );
+    setUserDetails(data);
+
+ 
+    setEmpId(data.id);
+    delete data.data.empId;
+    delete data.data.dateOfJoining;
+    delete data.data.designation;
+    delete data.data.password;
+    delete data.data.salary;
+
+    setUserDetails(data.data);
+  };
+  useEffect(() => {
+    getSingleUser();
+  }, []);
   const [updateUserDetails, setUpdateUserDetails] = useState({
     firstName: "",
     lastName: "",
@@ -267,19 +282,11 @@ const ProfilePage = () => {
                           <h6 className="mb-0">Phone</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                          {userDetails.contactNo}
+                          {userDetails.phoneNumber}
                         </div>
                       </div>
-                      <hr />
 
-                      <div className="row">
-                        <div className="col-sm-3">
-                          <h6 className="mb-0">Address</h6>
-                        </div>
-                        <div className="col-sm-9 text-secondary">
-                          {userDetails.address}
-                        </div>
-                      </div>
+                     
                       <hr />
                       <div className="row">
                         <div className="col-sm-12">

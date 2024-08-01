@@ -26,6 +26,13 @@
   font-size: 1.5em;
   margin-bottom: 20px;
 }
+.text-content h2 {
+  font-family: "Cursive", sans-serif;
+  color: #6a1b9a;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
 
 .explore-button {
   background-color: #7986cb;

@@ -1,0 +1,10 @@
+div.book-content{
+    background: linear-gradient(to right, #e0f7fa, #80deea);
+}
+
+.bookHeadline{
+    font-family: "Cursive", sans-serif;
+    color: #6a1b9a;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }

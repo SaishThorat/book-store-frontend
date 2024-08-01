@@ -1,26 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 import { IoMdCart } from "react-icons/io";
 import toast from "react-hot-toast";
 import { Badge } from "antd";
-import "../assets/css/HeaderStyle.css";
+import "../assets/css/HeaderStyle.css"
+import { Cookies, useCookies } from "react-cookie";
+import axios from "axios";
+const Header = () => {  
+//   const [cartCount, setCartCount] = useCartCount();
 
-const Header = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+const  [cookies, setCookie,removeCookie] = useCookies(["user"]);
+const [UserName,SetUserName]=useState<string>("")
+
+
+const getSingleUser = async () => {
+
+  const { data } = await axios.get(
+    `/api/auth/me`,
+    {
+      withCredentials:true,
+      withXSRFToken:true,
+      headers: { 'Authorization': `Bearer ${cookies.user}` } 
+    }
+  );
+  SetUserName(data.name);
+
+};
+useEffect(() => {
+  getSingleUser();
+}, []);
+
+
   const navigate = useNavigate();
-  const userType = "user"; // You can change this value to "admin" for testing admin view
+
+  const userType :string= "admin";
 
   const handleLogout = () => {
+    // Logic
+    removeCookie("user");
     navigate("/login");
+    
     toast.success("Logout Successfully");
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${searchQuery}`);
-    }
+    // if (searchQuery.trim()) {
+    //   navigate(`/search?query=${searchQuery}`);
+    // }
   };
 
   return (
@@ -80,8 +108,8 @@ const Header = () => {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  // value={searchQuery}
+                  // onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button className="btn btn-outline-success" type="submit">
                   Search
@@ -95,7 +123,7 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  User
+                 {UserName}
                 </NavLink>
                 <ul className="dropdown-menu">
                   <li>
@@ -105,24 +133,15 @@ const Header = () => {
                   </li>
                   <li>
                     <NavLink
-                      to={`/employee`}
+                      to={`/addbook`}
                       className={`dropdown-item ${
                         userType === "admin" ? "d-block" : "d-none"
                       }`}
                     >
-                      Manage Employees
+                      Manage Book
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to={`/product`}
-                      className={`dropdown-item ${
-                        userType === "admin" ? "d-block" : "d-none"
-                      }`}
-                    >
-                      Manage Products
-                    </NavLink>
-                  </li>
+                  
                   <li>
                     <NavLink
                       to={`/userOrder`}

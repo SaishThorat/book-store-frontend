@@ -5,69 +5,37 @@ import toast from "react-hot-toast";
 import { Modal } from "antd";
 import Layout from "../../layout/Layout";
 import HeroSection from "./HeroSection";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-
+import httpClients from "../../httpClient";
+import { useCookies } from "react-cookie";
+import { BookType } from "../../types/bookType";
+import "../../assets/css/Home.css"
 const HomePage = () => {
-  //   const [CartCount, setCartCount] = useCartCount();
-  const navigate = useNavigate();
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Hellen Keller",
-      discount: 1,
-      price: 324,
-    },
-    {
-      id: 2,
-      name: "Harry Potter",
-      discount: 1,
-      price: 345,
-    },
-    {
-      id: 3,
-      name: "Superman",
-      discount: 1,
-      price: 134,
-    },
-    {
-      id: 4,
-      name: "sdfsdf",
-      discount: 1,
-      price: 234,
-    },
-    {
-      id: 5,
-      name: "sfgfh",
-      discount: 1,
-      price: 556,
-    },
-    {
-      id: 6,
-      name: "hgftr",
-      discount: 1,
-      price: 678,
-    },
-  ]);
+//   const [CartCount, setCartCount] = useCartCount();
 
-  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState<BookType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [cookies, setCookie,] = useCookies(["user"]);
+
   const [selectedProduct, setSelectedProduct] = useState<number>();
-  const [ProductDetail, setProductDetail] = useState({
-    id: 1,
-    name: "XXX",
-    discount: 1,
-    price: "XXX",
-    description: "",
-    category: "",
+  const [ProductDetail, setProductDetail] = useState<BookType>({
+    ISBN:1,
+    title:"",
+    url:"",
+    author:"",
+    yearOfPublication:0,
+    discount:0,
+    price:0
   });
 
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
-  const showModal = (productId: number) => {
-    console.log({ productId });
+  
+  const showModal = (productId:number) => {
+    console.log({productId})
     setSelectedProduct(productId);
     setOpen(true);
-    // getProduct(productId);
+    getProduct(productId);
   };
   const handleOk = () => {
     setModalText("The modal will be closed after two seconds");
@@ -86,12 +54,22 @@ const HomePage = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:8080/product/allproducts`,
-        { withCredentials: false }
-      );
+      await httpClients
+      .get("/api/book",{
+        withCredentials:true,
+        withXSRFToken:true,
+        headers: { 'Authorization': `Bearer ${cookies.user}` } 
+      },
+      )
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          toast.error("Invalid credential.");
+        }
+      });
       setLoading(false);
-      setProducts(data);
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -102,18 +80,22 @@ const HomePage = () => {
     getAllProducts();
   }, []);
 
-  //get product
-  //   const getProduct = async (productId) => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `http://localhost:8080/product/${productId}`
-  //       );
-
-  //       setProductDetail(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  // get product
+  const getProduct = async (productId:number) => {
+    try {
+      const { data } = await axios.get(
+        `/api/book/${productId}`,
+        {
+          withCredentials:true,
+          withXSRFToken:true,
+          headers: { 'Authorization': `Bearer ${cookies.user}` } 
+        }
+      );
+      setProductDetail(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const orders = {
     userId: 1,
     productId: 5,
@@ -145,57 +127,38 @@ const HomePage = () => {
   //   }, [CartCount]);
   const handleNavigate = () => {
     console.log("Trying to navigate");
-    navigate("/bookview");
+    // navigate("/bookview");
   };
 
   return (
     <Layout>
       <HeroSection handleScrolling={null} />
-      <div className="col-md-12 order-md-2 order-1 pt-2">
+      <div className="col-md-12 order-md-2 order-1 pt-2 book-content" >
         <div className="d-flex flex-wrap justify-content-center">
-          {products?.map((p) => {
+    
+          {products.length!==0 ? products?.map((p:BookType) => {
             return (
               <>
-                <div
+                <div  
                   className="card m-4 p-3"
                   style={{ width: "16rem", height: "24rem" }}
                 >
                   <img
-                    src={`http://localhost:8080/product/${p.id}/image`}
-                    onClick={() => showModal(p.id)}
+                  src={p.url ?p.url:"https://cdn.dribbble.com/users/604891/screenshots/16581214/media/bb111973c18ec6b36a067efdecc9a8ff.gif"}
+                    onClick={() => p.ISBN!==undefined?showModal(p.ISBN):showModal(0)}
                     className="card-img-top"
-                    alt={p.name}
-                    style={{ height: "280px" }}
+                    alt={p.title}
+                    style={{ height: "280px"}}
                   />
-                  <div className="card-body text-center px-2">
-                    <h5 style={{ color: "#878787" }} className="card-title">
-                      <b>{p.name}</b>
-                    </h5>
+                  
+                  <div className="card-body text-center px-1">
+                    <h5 style={{color:"#878787"}} className="card-title"><b>{p.title}</b></h5>
                     <div>
-                      <b>
-                        <p
-                          style={{
-                            float: "left",
-                            color: "black",
-                            fontSize: "16px",
-                          }}
-                          className="card-text"
-                        >
-                          ₹ {p.price}
-                        </p>
-                        <p
-                          style={{
-                            color: "#388e3c",
-                            float: "right",
-                            fontSize: "16px",
-                          }}
-                          className="card-text"
-                        >
-                          {p.discount}% off
-                        </p>
-                      </b>
+                      <b><p style={{float:"left", color: "black", fontSize:"16px"}} className="card-text">Author {p.author}</p>
+                      <p style={{color: "black", float:"left", fontSize:"16px"}} className="card-text">Year OF Publication {p.yearOfPublication}</p></b>
                     </div>
-
+                    
+                    
                     <Modal
                       title="Product Detail"
                       open={open}
@@ -207,7 +170,7 @@ const HomePage = () => {
                       <div className="row container">
                         <div className="col-md-6">
                           <img
-                            src={`http://localhost:8080/product/${selectedProduct}/image`}
+                            src="https://cdn.dribbble.com/users/604891/screenshots/16581214/media/bb111973c18ec6b36a067efdecc9a8ff.gif"
                             className="img-fluid rounded"
                             style={{ height: "300px" }}
                           />
@@ -215,36 +178,11 @@ const HomePage = () => {
                         <div className="col-md-6">
                           <div className="d-flex flex-column justify-content-between h-100 p-3">
                             <div>
-                              <h2 style={{ color: "#2874f0" }}>
-                                {ProductDetail.name}
-                              </h2>
-                              <p
-                                style={{
-                                  fontSize: "15px",
-                                  marginBottom: "-8px",
-                                }}
-                              >
-                                special price
-                              </p>
-                              <b>
-                                <p style={{ color: "black", fontSize: "30px" }}>
-                                  &#x20B9; {ProductDetail.price}{" "}
-                                  <span
-                                    style={{
-                                      color: "#388e3c",
-                                      fontSize: "18px",
-                                      marginLeft: "15px",
-                                    }}
-                                  >
-                                    {ProductDetail.discount}% off
-                                  </span>
-                                </p>
-                              </b>
-                              <p>Category : {ProductDetail?.category}</p>
-                              <h6>{ProductDetail.description}</h6>
-                              <button onClick={handleNavigate}>
-                                View the Book
-                              </button>
+                              <h2 style={{color:"#2874f0"}}>{ProductDetail.title}</h2>
+                              <p style={{fontSize:"15px", marginBottom:"-8px"}}>special price</p>
+                              <b><p style={{color:"black", fontSize:"30px"}}>&#x20B9; {ProductDetail.price} <span style={{color: "#388e3c", fontSize:"18px", marginLeft:"15px"}}>{ProductDetail.discount}% off</span></p></b>
+                              <h6>Author : {ProductDetail?.author}</h6>
+                              <h6>Year OF Publication {ProductDetail.yearOfPublication}</h6>
                               <button
                                 className="btn btn-light ms-1 btn-outline-dark m-1"
                                 // onClick={addToCard}
@@ -257,11 +195,17 @@ const HomePage = () => {
                         </div>
                       </div>
                     </Modal>
+                    
                   </div>
+                 
+                    <div className="my-2">
+                      <b><p style={{float:"left", color: "black", fontSize:"16px"}} className="card-text">₹ {p.price}</p>
+                      <p style={{color: "#388e3c", float:"right", fontSize:"16px"}} className="card-text">{p.discount===undefined?'-':p.discount} % off</p></b>
+                    </div>
                 </div>
               </>
             );
-          })}
+          }):<><h2 className="bookHeadline">No books available right now. Please check back later!</h2></>}
         </div>
       </div>
     </Layout>

@@ -3,11 +3,13 @@ import LoginPic from "../../assets/images/signup-image.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { jwtDecode } from "jwt-decode";
 import httpClients from "../../httpClient";
+import { useCookies } from "react-cookie";
 
 
 const Login = () => {
+
+  const [cookies, setCookie,] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
@@ -34,6 +36,7 @@ const Login = () => {
       })
       .then((res) => {
         if (res?.status === 201) {
+          setCookie("user", `${res.data.token}`, { path: "/" });
           toast.success("login successfully ");
           navigate("/homePage");
         }

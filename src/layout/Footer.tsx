@@ -10,13 +10,10 @@ const Footer = () => {
       <div className="footer-basic">
         <footer>
           <div className="social">
-            <Link to="" target="_blank">
+            <Link to="/ " target="_blank">
               <MdWork />
             </Link>
-            <Link to="" target="_blank">
-              <FaGithub />
-            </Link>
-            <Link to="" target="_blank">
+            <Link to="https://github.com/SaishThorat" target="_blank">
               <FaGithub />
             </Link>
           </div>

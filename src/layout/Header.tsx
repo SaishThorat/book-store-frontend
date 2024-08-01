@@ -44,7 +44,7 @@ useEffect(() => {
     toast.success("Logout Successfully");
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e:any) => {
     e.preventDefault();
     // if (searchQuery.trim()) {
     //   navigate(`/search?query=${searchQuery}`);
@@ -79,16 +79,33 @@ useEffect(() => {
               <li className="nav-item dropdown mx-1">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to=""
+                  to="#"
                   data-bs-toggle="dropdown"
                 >
                   Categories
                 </Link>
                 <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item" to="/homepage">
+                  <li className="dropdown-submenu">
+                    <Link className="dropdown-item dropdown-toggle" to="#">
                       All Books
                     </Link>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/sci-fi">
+                          Sci-Fi
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/horror">
+                          Horror
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/all-books/comedy">
+                          Comedy
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/elearning">

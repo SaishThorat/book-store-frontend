@@ -1,8 +1,8 @@
-
-import { Helmet } from 'react-helmet';
-import {Toaster} from 'react-hot-toast';
-import Header from './Header';
-import Footer from './Footer';
+import { Helmet } from "react-helmet";
+import { Toaster } from "react-hot-toast";
+import Header from "./Header";
+import Footer from "./Footer";
+import Chatbot from "../components/Chatbot"; // Import the Chatbot component
 
 const Layout = ({ children, title, description, keywords, author }) => {
   return (
@@ -17,20 +17,20 @@ const Layout = ({ children, title, description, keywords, author }) => {
       {/* {console.log(children)} */}
       <Header />
       <main style={{ minHeight: "70vh" }}>
-        <Toaster/>
+        <Toaster />
         {children}
       </main>
       <Footer />
+      <Chatbot /> {/* Add the Chatbot component here */}
     </>
-  )
-}
+  );
+};
 
+Layout.defaultProps = {
+  title: "ShoppingMall- Shop Now",
+  description: "Springboot Project",
+  keywords: "React.js,MySql,SpringBoot",
+  author: "Group 7",
+};
 
-Layout.defaultProps={
-  title:'ShoppingMall- Shop Now',
-  description:'Springboot Project',
-  keywords:'React.js,MySql,SpringBoot',
-  author:'Group 7'
-}
-
-export default Layout
+export default Layout;

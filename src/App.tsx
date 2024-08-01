@@ -1,7 +1,5 @@
+import RouterManage from "./protectRoutes/RouterManage";
 
-import './App.css'
-
-import RouterManage from './protectRoutes/RouterManage';
 
 function App() {
 
@@ -9,4 +7,3 @@ function App() {
 <RouterManage/>
  </>)}
 
- export default App;

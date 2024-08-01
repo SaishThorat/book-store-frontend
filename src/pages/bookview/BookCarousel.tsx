@@ -7,7 +7,7 @@ const BookCarousel = ({ books, onSelectBook }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 300,
     slidesToShow: 5,
     slidesToScroll: 1,
   };
@@ -17,11 +17,22 @@ const BookCarousel = ({ books, onSelectBook }) => {
       <h2>Recommendations</h2>
       <Slider {...settings}>
         {books.map((book, index) => (
-          <div key={index} onClick={() => onSelectBook(book)}>
+          <div
+            key={index}
+            onClick={() => onSelectBook(book)}
+            style={{
+              padding: "5px",
+            }}
+          >
             <img
               src={book.coverImage}
               alt={book.title}
-              style={{ width: "100%", cursor: "pointer" }}
+              style={{
+                width: "100%",
+                cursor: "pointer",
+                paddingLeft: "3px",
+                paddingRight: "3px",
+              }}
             />
           </div>
         ))}

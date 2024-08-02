@@ -2,7 +2,7 @@ import React from "react";
 // import "../assets/css/About.css";
 import Layout from "../layout/Layout";
 
-const About: React.FC = () => {
+const Contact: React.FC = () => {
   return (
     <Layout>
       <div style={{ padding: "20px" }}>
@@ -16,4 +16,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+export default Contact;

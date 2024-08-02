@@ -51,8 +51,8 @@ const Register = () => {
             }
           })
           .catch((err) => {
-            if (err.response?.status === 401) {
-              toast.error("Enter correct details");
+            if (err.response?.status === 401 || 500) {
+              toast.error("Email already in use , try with another email !");
               navigate("/signup");
             }
           });

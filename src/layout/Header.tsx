@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { Badge } from "antd";
 import "../assets/css/HeaderStyle.css"
 import { Cookies, useCookies } from "react-cookie";
+import { FaRegUser } from "react-icons/fa6";
 import axios from "axios";
 const Header = () => {  
 //   const [cartCount, setCartCount] = useCartCount();
@@ -40,6 +41,7 @@ useEffect(() => {
     // Logic
     removeCookie("user");
     navigate("/login");
+    localStorage.clear
     
     toast.success("Logout Successfully");
   };
@@ -91,29 +93,29 @@ useEffect(() => {
                     </Link>
                     <ul className="dropdown-menu">
                       <li>
-                        <Link className="dropdown-item" to="/all-books/sci-fi">
+                        <Link className="dropdown-item" to="#">
                           Sci-Fi
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/all-books/horror">
+                        <Link className="dropdown-item" to="#">
                           Horror
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/all-books/comedy">
+                        <Link className="dropdown-item" to="#">
                           Comedy
                         </Link>
                       </li>
                     </ul>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/elearning">
+                    <Link className="dropdown-item" to="#">
                       E-Learning Books
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/physical">
+                    <Link className="dropdown-item" to="#">
                       Physical Books
                     </Link>
                   </li>
@@ -140,9 +142,9 @@ useEffect(() => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                 {UserName}
+                 {UserName} <FaRegUser/>
                 </NavLink>
-                <ul className="dropdown-menu">
+               {cookies.user?<ul className="dropdown-menu">
                   <li>
                     <NavLink to={`/profile`} className="dropdown-item">
                       Profile
@@ -178,13 +180,19 @@ useEffect(() => {
                       Logout
                     </NavLink>
                   </li>
-                </ul>
+                </ul>:<ul className="dropdown-menu">
+                  <li>
+                    <NavLink to={`/login`} className="dropdown-item">
+                      Login
+                    </NavLink>
+                  </li>
+                </ul>} 
               </li>
               <li className="nav-item p-1 mx-1">
                 <Badge>
                   <NavLink to="/cart" className="nav-link">
                     <span style={{ fontFamily: "Poppins", fontSize: "20px" }}>
-                      <IoMdCart />
+                      <IoMdCart /> <span style={{position:'relative',bottom:'0.5rem'} }>{localStorage.getItem('cartCount')===undefined?0:localStorage.getItem('cartCount')}</span>
                     </span>
                   </NavLink>
                 </Badge>

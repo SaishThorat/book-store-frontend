@@ -1,235 +1,105 @@
-import { useState } from "react";
-// import { useCartCount } from "../ContextApi/Cart";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-// import DropIn from "braintree-web-drop-in-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../layout/Layout";
-import "../assets/css/Cart.css";
+import { CartType } from "../types/cartType";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import toast from "react-hot-toast";
 
 const CartPage = () => {
-  //   const [cartCount, setcartCount] = useCartCount();
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      product: {
-        id: 1,
-        name: "sa",
-        discount: 1,
-        price: 1,
-      },
-      order: { orderId: 1 },
-    },
-    {
-      id: 1,
-      product: {
-        id: 1,
-        name: "sa",
-        discount: 1,
-        price: 1,
-      },
-      order: { orderId: 1 },
-    },
-    {
-      id: 1,
-      product: {
-        id: 1,
-        name: "sa",
-        discount: 1,
-        price: 1,
-      },
-      order: { orderId: 1 },
-    },
-    {
-      id: 1,
-      product: {
-        id: 1,
-        name: "sa",
-        discount: 1,
-        price: 1,
-      },
-      order: { orderId: 1 },
-    },
-  ]);
-  //   const userId = 1;
-  //   const [clientToken, setClientToken] = useState("");
-  //   const [instance, setinstance] = useState("");
-  //   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  //   const getPreviousPendingOrder = async () => {
-  //     const { data } = await axios.get(`http://localhost:8080/order/${userId}/pending`);
-  //     console.log("ha data card page", data);
-  //     setCart(data);
-  //   };
+  const [cart, setCart] = useState<CartType[]>();
+  const [cookies, setCookie,] = useCookies(["user"]);
 
-  //total price
-  //   const totalPrice = () => {
-  //     try {
-  //       let count = 0;
-  //       let total = 0;
-  //       cart?.map((item, index) => {
-  //         count = index + 1;
-  //         total = total + item.product.price;
-  //         console.log();
-  //       });
-  //     //   setcartCount(count);
-  //     //   console.log("cart count", cartCount);
-  //       console.log(total);
-  //       return Math.round(total);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
 
-  //remove from cart
-  //   const removeCartItem = async (orderId) => {
-  //     try {
-  //       await axios.delete(`http://localhost:8080/order/delete/${orderId}`);
-  //       toast.success("order removed successfully!");
-  //     //   getPreviousPendingOrder();
+    const getPreviousPendingOrder = async () => {
+      await axios.get(`/api/order/mycart`,{
+        withCredentials:true,
+        withXSRFToken:true,
+        headers: { 'Authorization': `Bearer ${cookies.user}` } 
+      }).then((res)=>{
+        setCart(res.data)
+      });
+     
+    };
+    
+ 
 
-  //       localStorage.setItem("cartCount", setcartCount(cartCount - 1));
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  // remove from cart
+    const removeCartItem = async (orderId:number) => {
+      try {
+        await axios.delete(`api/order/removeCart/${orderId}`,{
+          withCredentials:true,
+          withXSRFToken:true,
+          headers: { 'Authorization': `Bearer ${cookies.user}` } 
+        });
+        toast.success("cart item removed successfully!");
+        const count=localStorage.getItem('cartCount');
+        count===null?0:localStorage.setItem('cartCount',(parseInt(count)-1)+'')
+        getPreviousPendingOrder();
 
-  // //get payment gateway token
-  // const getToken = async () => {
-  //   try {
-  //     const { data } = await axios.get(`http://localhost:8080/braintree/token`);
-  //     setClientToken(data);
-  //     // console.log("token: ",clientToken);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  //     const handlePayment = async () => {
-  //       try {
-  //         setLoading(true);
-  //         await axios.put(`http://localhost:8080/order/${userId}`);
-  //         // console.log("payment data",cart);
-  //         // useId,pid,status,Time ,Date
-  //         setLoading(false);
-  //         setCart([])
-  //         setcartCount(0)
-  //         getPreviousPendingOrder();
-  //         navigate('/userOrder');
-  //         toast.success("Payment Completed Successfully");
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //   useEffect(() => {
-  //     getPreviousPendingOrder();
-  //     getToken();
-  //   }, []);
+    useEffect(() => {
+      getPreviousPendingOrder();
+      localStorage.getItem('cartCount')===undefined?0:localStorage.getItem('cartCount')
+    }, []);
   return (
-    <div className="cart">
-      <Layout title={"Cart"}>
-        <div className="container pb-2">
-          <div className="row">
-            <div className="col-md-12">
-              <h4 className="text-center my-2">
-                {cart?.length
-                  ? `You have ${cart.length} items in your cart`
-                  : "Your Cart is Empty"}
-              </h4>
-            </div>
-            <hr />
+    <Layout title={"Cart"}>
+      <div className="container pb-2">
+        <div className="row">
+          <div className="col-md-12">
+            <h4 className="text-center my-2">
+              {cart?.length
+                ? `You have ${localStorage.setItem("cartCount", cart?.length+'')===undefined?cart?.length:0} items in your cart`
+                : "Your Cart is Empty"}
+            </h4>
           </div>
-
-          <div className="row">
-            <div className="col-md-8">
-              {/* col-md-6 m-1 */}
-              <div className="row"></div>
-              {cart?.map((p) => (
-                <>
-                  <div className="row mb-2 p-3 card flex-row" key={p.id}>
-                    <div className="col-md-4 d-flex align-items-center justify-content-center">
-                      <img
-                        src={`http://localhost:8080/product/${p.product.id}/image`}
-                        className="img-fluid"
-                        alt={p.product.name}
-                        width={"100px"}
-                        height={"100px"}
-                      />
-                    </div>
-                    <div className="col-md-8">
-                      <p>{p.product.name}</p>
-                      <p>${p.product.price}</p>
-                      <button
-                        className="btn btn-danger"
-                        //   onClick={() => removeCartItem(p.order.orderId)
-
-                        //   }
-                      >
-                        Remove Item
-                      </button>
-                    </div>
-                  </div>
-                </>
-              ))}
-            </div>
-
-            <div className="col-md-4 text-center">
-              <h4>Cart Summary</h4>
-              <hr />
-              {/* <h4>Total: {totalPrice()} </h4> */}
-
-              {/* <div className="mt-2">
-                {!clientToken || !cart?.length ? (
-                  ""
-                ) : (
-                  <>
-                    {clientToken && (
-                      <DropIn
-                        options={{
-                          authorization: clientToken,
-                          paypal: {
-                            flow: "vault",
-                          },
-                          googlePay: {
-                            merchantId: "1234",
-                            transactionInfo: {
-                              currencyCode: "INR",
-                              countryCode: "IN",
-                              totalPriceStatus: "FINAL",
-                              totalPrice: totalPrice(),
-                              checkoutOption: "DEFAULT",
-                            },
-                          },
-                          card: {
-                            overrides: {
-                              styles: {
-                                input: {
-                                  // color: 'blue',
-                                  // 'font-size': '30px'
-                                  height: "50px",
-                                },
-                              },
-                            },
-                          },
-                        }}
-                        onInstance={(instance) => setinstance(instance)}
-                      />
-                    )}
-                    <button
-                      className="btn btn-primary"
-                      onClick={handlePayment}
-                      disabled={loading || !instance}
-                    >
-                      {loading ? "Processing..." : "Make Payment"}
-                    </button>
-                  </>
-                )}
-              </div> */}
-            </div>
-          </div>
+          <hr />
         </div>
-      </Layout>
-    </div>
+
+        <div className="row">
+          <div className="col-md-8">
+            {/* col-md-6 m-1 */}
+            <div className="row"></div>
+            {cart?.map((p) => (
+              <>
+                <div className="row mb-2 p-3 card flex-row" key={p.id}>
+                  <div className="col-md-4 d-flex align-items-center justify-content-center">
+                    <img
+                      src={p.Book.Image}
+                      className="img-fluid"
+                      alt={p.Book.Title}
+                      width={"100px"}
+                      height={"100px"}
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <p>Title {p.Book.Title}</p>
+                    <p>Price ${p.Book.Price.toString().substring(3)}</p>
+                    <p>Author {p.Book.authors}</p>
+                    <p>Unit {p.unit}  || Total Price {(p.unit*p.Book.Price).toString().substring(3)}</p>
+                    <button
+                      className="btn btn-danger"
+                        onClick={() => removeCartItem(p.id)
+
+                        }
+                    >
+                      Remove Item
+                    </button>
+                  </div>
+                  
+                </div>
+              </>
+            ))}
+          </div>
+
+         
+        </div>
+      </div>
+    </Layout>
   );
 };
 

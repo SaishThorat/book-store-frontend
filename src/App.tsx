@@ -7,3 +7,4 @@ function App() {
 <RouterManage/>
  </>)}
 
+export default App;

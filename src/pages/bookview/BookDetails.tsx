@@ -1,4 +1,3 @@
-import React from "react";
 
 const BookDetails = ({ book }) => {
   if (!book) return null;

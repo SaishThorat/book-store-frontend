@@ -4,7 +4,6 @@ import SigninPic from "../../assets/images/signin-image.jpg";
 import toast from "react-hot-toast";
 import "../../assets/css/login1.css"
 import { Role } from "../../contants";
-import axios from "axios";
 import httpClients from "../../httpClient";
 
 const Register = () => {

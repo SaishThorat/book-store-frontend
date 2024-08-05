@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 import { IoMdCart } from "react-icons/io";
 import toast from "react-hot-toast";
 import { Badge } from "antd";
 import "../assets/css/HeaderStyle.css"
-import { Cookies, useCookies } from "react-cookie";
+import {  useCookies } from "react-cookie";
 import { FaRegUser } from "react-icons/fa6";
 import axios from "axios";
 const Header = () => {  
-//   const [cartCount, setCartCount] = useCartCount();
 
 const  [cookies, setCookie,removeCookie] = useCookies(["user"]);
 const [UserName,SetUserName]=useState<string>("")

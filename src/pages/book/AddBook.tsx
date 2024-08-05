@@ -96,22 +96,6 @@ const AddBook = () => {
             required
           />
         </div>
-        {/* <div className="mb-3">
-          <select
-            className="form-control"
-            id="category"
-            name="category"
-            value={productData.category}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="mens">Men's</option>
-            <option value="womens">Women's</option>
-            <option value="electronics">Electronics</option>
-            <option value="accessories">Accessories</option>
-          </select>
-        </div> */}
         <div className="mb-3">
           <input
             type="text"

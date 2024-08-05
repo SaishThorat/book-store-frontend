@@ -14,28 +14,13 @@ const Reviews = ({ productId }) => {
   ]);
   const [newReview, setNewReview] = useState({ author: "", content: "" });
 
-  //   useEffect(() => {
-  //     // Fetch reviews from API
-  //     const fetchReviews = async () => {
-  //       try {
-  //         const response = await axios.get(
-  //           `http://localhost:8080/product/${productId}/reviews`
-  //         );
-  //         setReviews(response.data);
-  //       } catch (error) {
-  //         console.error("Error fetching reviews:", error);
-  //       }
-  //     };
 
-  //     fetchReviews();
-  //   }, [productId]);
-
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setNewReview({ ...newReview, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     try {
       const response = await axios.post(

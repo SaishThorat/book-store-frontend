@@ -2,8 +2,7 @@ import { Helmet } from "react-helmet";
 import { Toaster } from "react-hot-toast";
 import Header from "./Header";
 import Footer from "./Footer";
-import Chatbot from "../components/Chatbot"; // Import the Chatbot component
-
+import Chatbot from "../components/Chatbot"; 
 const Layout = ({ children, title, description, keywords, author }) => {
   return (
     <>
@@ -14,14 +13,13 @@ const Layout = ({ children, title, description, keywords, author }) => {
         <meta name="author" content={author} />
         <title>{title}</title>
       </Helmet>
-      {/* {console.log(children)} */}
       <Header />
       <main style={{ minHeight: "70vh" }}>
         <Toaster />
         {children}
       </main>
       <Footer />
-      <Chatbot /> {/* Add the Chatbot component here */}
+      <Chatbot /> 
     </>
   );
 };

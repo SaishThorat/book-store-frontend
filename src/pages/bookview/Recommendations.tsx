@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import BookCarousel from "./BookCarousel";
 import BookDetails from "./BookDetails";
 import Review from "./Review";
 import Layout from "../../layout/Layout";
 import "../../assets/css/Recommender.css";
+import { useState } from "react";
 
 const Recommendations = () => {
   const [selectedBook, setSelectedBook] = useState(null);
